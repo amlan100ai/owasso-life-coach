@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Owasso Life Coach — Demo</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="icon" href="public/images/favicon-rounded.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue: #0B4F9E;
+    --blue-dark: #072B54;
+    --blue-tint: #EEF4FC;
+    --ink: #0A0F1A;
+    --white: #FFFFFF;
+    --muted: #5B6470;
+    --border: #E3E7ED;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--white); color: var(--ink);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.6;
+  }
+  a { color: inherit; text-decoration: none; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+
+  nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(7, 43, 84, 0.95);
+    backdrop-filter: blur(16px) saturate(115%);
+    -webkit-backdrop-filter: blur(16px) saturate(115%);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 80px; gap: 20px; }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand img { height: 42px; width: 42px; border-radius: 50%; display: block; object-fit: cover; }
+  .brand span { color: #fff; font-weight: 700; font-size: 15px; letter-spacing: -0.01em; line-height: 1.25; }
+  .brand span small { display: block; color: rgba(255,255,255,0.6); font-weight: 500; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; }
+  .nav-links { display: flex; gap: 26px; font-size: 12.5px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; }
+  .nav-links a { color: rgba(255,255,255,0.75); transition: color .15s ease; }
+  .nav-links a:hover { color: #fff; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--blue); color: var(--white);
+    font-weight: 700; font-size: 13.5px;
+    padding: 13px 24px; border-radius: 10px;
+    border: none; cursor: pointer;
+    transition: transform .15s ease, box-shadow .15s ease;
+    white-space: nowrap;
+  }
+  .btn:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(11,79,158,0.4); }
+  .btn-sm { padding: 10px 18px; font-size: 12.5px; }
+  .btn-outline { background: rgba(255,255,255,0.08); color: var(--white); border: 1.5px solid rgba(255,255,255,0.3); }
+  .btn-outline:hover { border-color: #fff; box-shadow: none; background: rgba(255,255,255,0.1); }
+
+  header.hero {
+    background: linear-gradient(180deg, var(--blue-dark) 0%, #051d3a 100%);
+    padding: 88px 0 96px; position: relative; overflow: hidden;
+  }
+  .hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 56px; align-items: center; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 11.5px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase;
+    color: #fff; background: rgba(11,79,158,0.35); border: 1px solid rgba(11,79,158,0.55);
+    padding: 7px 16px; border-radius: 999px; margin-bottom: 24px;
+  }
+  h1.hero-h1 { font-size: 40px; font-weight: 800; color: #fff; line-height: 1.28; margin-bottom: 18px; letter-spacing: -0.01em; }
+  header.hero p.sub { font-size: 16px; color: rgba(255,255,255,0.8); max-width: 470px; margin-bottom: 32px; line-height: 1.8; }
+  .cta-row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .hero-photo { position: relative; max-width: 320px; margin: 0 auto; }
+  .hero-photo img { width: 100%; border-radius: 50%; box-shadow: 0 30px 60px rgba(0,0,0,0.35); display: block; border: 6px solid rgba(255,255,255,0.12); }
+  .hero-badge {
+    position: absolute; bottom: -6px; left: -18px;
+    background: var(--white); border-radius: 16px; padding: 14px 20px;
+    box-shadow: 0 14px 30px rgba(0,0,0,0.18); display: flex; align-items: center; gap: 12px;
+  }
+  .hero-badge .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--blue); flex-shrink: 0; }
+  .hero-badge .name { font-size: 12.5px; font-weight: 700; color: var(--ink); }
+  .hero-badge .role { font-size: 10.5px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.03em; }
+
+  section { padding: 84px 0; }
+  section.tint { background: var(--blue-tint); }
+
+  .section-head { text-align: center; max-width: 640px; margin: 0 auto 50px; }
+  .section-head .kicker { color: var(--blue); font-weight: 700; font-size: 12.5px; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 12px; display: block; }
+  .section-head h2 { font-size: 30px; font-weight: 800; margin-bottom: 14px; color: var(--ink); letter-spacing: -0.01em; }
+  .section-head p { color: var(--muted); font-size: 15.5px; line-height: 1.75; }
+
+  /* Stat strip */
+  .stat-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; text-align: center; }
+  .stat-item .num { font-size: 34px; font-weight: 800; color: var(--blue-dark); letter-spacing: -0.01em; }
+  .stat-item .label { font-size: 12.5px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; margin-top: 6px; }
+
+  /* Services */
+  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .service-item { background: var(--white); border: 1px solid var(--border); border-radius: 18px; padding: 30px 24px; box-shadow: 0 10px 26px rgba(11,79,158,0.05); }
+  .service-item .icon-circle { width: 52px; height: 52px; border-radius: 14px; background: var(--blue-tint); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+  .service-item .icon-circle svg { width: 24px; height: 24px; color: var(--blue); }
+  .service-item h3 { font-size: 15.5px; font-weight: 700; color: var(--ink); margin-bottom: 9px; }
+  .service-item p { font-size: 13.5px; color: var(--muted); line-height: 1.7; }
+
+  /* Trust band */
+  .trust-band { background: var(--blue-tint); border: 1px solid #d7e6f9; border-radius: 18px; padding: 26px 30px; text-align: center; max-width: 760px; margin: 0 auto; }
+  .trust-band .label { color: var(--blue); font-weight: 800; font-size: 12.5px; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; display: block; }
+  .trust-band p { color: var(--muted); font-size: 14.5px; line-height: 1.75; }
+
+  /* Reassurance section */
+  .reassure { max-width: 720px; margin: 0 auto; text-align: center; }
+  .reassure p { color: var(--muted); font-size: 16px; line-height: 1.9; margin-bottom: 18px; }
+  .reassure-links { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 24px; }
+  .reassure-links span { background: var(--white); border: 1px solid var(--border); color: var(--blue-dark); font-size: 12.5px; font-weight: 700; padding: 8px 16px; border-radius: 999px; }
+
+  /* About */
+  .about-grid { display: grid; grid-template-columns: 0.75fr 1.25fr; gap: 48px; align-items: center; }
+  .about-grid img { width: 100%; max-width: 260px; border-radius: 50%; box-shadow: 0 20px 44px rgba(11,79,158,0.2); display: block; margin: 0 auto; }
+  .about-text p { color: var(--muted); font-size: 15.5px; line-height: 1.9; margin-bottom: 16px; }
+  .about-text strong { color: var(--ink); }
+  .about-text .credential { display: inline-block; background: var(--blue-tint); color: var(--blue-dark); font-size: 12px; font-weight: 700; padding: 6px 14px; border-radius: 999px; margin-bottom: 16px; }
+
+  /* Quote band */
+  .quote-band { background: var(--blue-dark); color: #fff; text-align: center; }
+  .quote-band p { font-size: 22px; font-weight: 600; max-width: 720px; margin: 0 auto; line-height: 1.6; font-style: italic; }
+  .quote-band .rec { margin-top: 22px; font-size: 13px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: rgba(255,255,255,0.65); font-style: normal; }
+
+  /* Contact */
+  .info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .info-card { background: var(--white); border: 1px solid var(--border); border-radius: 18px; padding: 28px; box-shadow: 0 10px 26px rgba(11,79,158,0.05); }
+  .info-card h3 { font-size: 12.5px; font-weight: 700; margin-bottom: 12px; color: var(--blue); text-transform: uppercase; letter-spacing: 0.05em; }
+  .info-card p { color: var(--ink); font-size: 14.5px; line-height: 1.85; margin-bottom: 2px; }
+  .info-card p a { color: var(--blue-dark); font-weight: 600; }
+
+  .final-cta { text-align: center; background: linear-gradient(180deg, var(--blue-dark) 0%, #051d3a 100%); color: #fff; }
+  .final-cta h2 { font-size: 30px; font-weight: 800; margin-bottom: 14px; color: #fff; letter-spacing: -0.01em; }
+  .final-cta p { color: rgba(255,255,255,0.78); font-size: 15.5px; margin-bottom: 30px; max-width: 480px; margin-left: auto; margin-right: auto; }
+  .final-cta .cta-row { justify-content: center; }
+
+  footer { padding: 44px 0; background: #051d3a; }
+  footer .wrap { display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; }
+  footer img { width: 44px; height: 44px; border-radius: 50%; margin-bottom: 14px; }
+  footer p { color: rgba(255,255,255,0.55); font-size: 13px; }
+  footer .biz-name { color: var(--white); font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+  footer a.solv { color: #fff; font-weight: 700; text-decoration: underline; }
+
+  @media (max-width: 900px) {
+    .hero-grid, .about-grid { grid-template-columns: 1fr; }
+    .services-grid, .info-grid, .stat-strip { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    h1.hero-h1 { font-size: 28px; }
+    .section-head h2 { font-size: 24px; }
+    .quote-band p { font-size: 18px; }
+    .about-grid { text-align: center; }
+    .hero-badge { position: static; margin: 18px auto 0; max-width: 240px; }
+  }
+
+  #chat-launcher {
+    position: fixed; bottom: 24px; right: 24px; z-index: 60;
+    width: 60px; height: 60px; border-radius: 50%;
+    background: var(--blue); border: none;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; box-shadow: 0 10px 28px rgba(11,79,158,0.45);
+    transition: transform .15s ease;
+  }
+  #chat-launcher:hover { transform: scale(1.06); }
+  #chat-launcher svg { width: 26px; height: 26px; color: #fff; }
+  #chat-panel {
+    position: fixed; bottom: 96px; right: 24px; z-index: 60;
+    width: 350px; max-width: calc(100vw - 32px); height: 460px; max-height: calc(100vh - 140px);
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+    border: 1px solid var(--border); border-radius: 20px;
+    display: none; flex-direction: column; overflow: hidden;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.22);
+  }
+  #chat-panel.open { display: flex; }
+  #chat-panel .chat-head { padding: 16px 18px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 10px; background: var(--blue-dark); color: var(--white); }
+  #chat-panel .chat-head .dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; }
+  #chat-panel .chat-head span { font-weight: 700; font-size: 14px; flex: 1; }
+  #chat-close { background: none; border: none; color: rgba(255,255,255,0.75); cursor: pointer; padding: 4px; display: flex; align-items: center; justify-content: center; }
+  #chat-close:hover { color: #fff; }
+  #chat-body { flex: 1; overflow-y: auto; padding: 16px 18px; display: flex; flex-direction: column; gap: 12px; }
+  .bubble { max-width: 88%; padding: 10px 14px; border-radius: 14px; font-size: 13.5px; line-height: 1.55; }
+  .bubble.bot { background: var(--blue-tint); color: var(--ink); align-self: flex-start; border-bottom-left-radius: 4px; }
+  .bubble.user { background: var(--blue); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; }
+  .bubble a { color: var(--blue-dark); text-decoration: underline; font-weight: 600; }
+  .bubble.user a { color: #fff; }
+  #chat-form { display: flex; gap: 8px; padding: 14px; border-top: 1px solid var(--border); background: rgba(255,255,255,0.6); }
+  #chat-input { flex: 1; background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; color: var(--ink); font-size: 13.5px; font-family: inherit; }
+  #chat-input:focus { outline: none; border-color: var(--blue); }
+  #chat-send { background: var(--blue); color: #fff; border: none; border-radius: 10px; width: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand">
+      <img src="public/images/jen-avatar-circle.png" alt="Owasso Life Coach" />
+      <span>Owasso Life Coach<small>Owasso, OK</small></span>
+    </div>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#services">How I Help</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <a href="#contact" class="btn btn-sm">Book a Free Call</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">Serving Owasso &amp; the Tulsa Area</div>
+      <h1 class="hero-h1">A partner for your next chapter — real, personal life coaching in Owasso.</h1>
+      <p class="sub">Owasso Life Coach, led by Jen, helps people work through big changes, tough decisions, and stuck patterns — with a private, one-on-one approach built on real conversation, not a script.</p>
+      <div class="cta-row">
+        <a href="#contact" class="btn">Book a Free Call</a>
+        <a href="tel:+19188553964" class="btn btn-outline">Call (918) 855-3964</a>
+      </div>
+    </div>
+    <div class="hero-photo">
+      <img src="public/images/jen-hero-circle.png" alt="Jen, founder of Owasso Life Coach" />
+      <div class="hero-badge">
+        <span class="dot"></span>
+        <div>
+          <div class="name">Jen</div>
+          <div class="role">Founder &amp; Life Coach</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="stat-strip">
+      <div class="stat-item">
+        <div class="num">100%</div>
+        <div class="label">Client Recommend</div>
+      </div>
+      <div class="stat-item">
+        <div class="num">Top 10</div>
+        <div class="label">Life Coaches in Owasso, OK — Thumbtack</div>
+      </div>
+      <div class="stat-item">
+        <div class="num">1:1</div>
+        <div class="label">Private, Personal Sessions</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tint" id="services">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">Now Booking New Clients</span>
+      <h2>How I Can Help</h2>
+      <p>Life coaching built around wherever you're stuck right now — practical, judgment-free support for real change.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-item">
+        <div class="icon-circle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4"/><path d="m6.8 6.8-2.8-2.8"/><path d="M2 12h4"/><path d="m6.8 17.2-2.8 2.8"/><path d="M12 18v4"/><path d="m17.2 17.2 2.8 2.8"/><path d="M18 12h4"/><path d="m17.2 6.8 2.8-2.8"/></svg>
+        </div>
+        <h3>Personal Growth</h3>
+        <p>One-on-one coaching to help you get unstuck, build confidence, and move toward the life you actually want.</p>
+      </div>
+      <div class="service-item">
+        <div class="icon-circle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7h-9"/><path d="M14 17H5"/><circle cx="17" cy="17" r="3"/><circle cx="7" cy="7" r="3"/></svg>
+        </div>
+        <h3>Life Transitions</h3>
+        <p>Support through career changes, big decisions, and new chapters — with a clear plan, not just a pep talk.</p>
+      </div>
+      <div class="service-item">
+        <div class="icon-circle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+        </div>
+        <h3>Goal Setting &amp; Accountability</h3>
+        <p>Turn a vague "I should" into an actual plan, with someone in your corner checking in and keeping you honest.</p>
+      </div>
+      <div class="service-item">
+        <div class="icon-circle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        </div>
+        <h3>Stress &amp; Burnout Recovery</h3>
+        <p>Practical tools to manage overwhelm and rebuild energy, so you're running your life instead of just surviving it.</p>
+      </div>
+      <div class="service-item">
+        <div class="icon-circle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3>Family &amp; Relationship Support</h3>
+        <p>Coaching to help you communicate better and navigate the relationships that matter most.</p>
+      </div>
+      <div class="service-item">
+        <div class="icon-circle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg>
+        </div>
+        <h3>Online Classes</h3>
+        <p>Flexible online sessions and classes, so coaching fits into a busy schedule instead of fighting it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="trust-band">
+      <span class="label">Trusted in the Owasso Community</span>
+      <p>Owasso Life Coach holds a 100% recommend rating from clients on Facebook and is listed among Thumbtack's "10 Best Life Coaches in Owasso, OK." Call ahead or book online to schedule your first session.</p>
+    </div>
+  </div>
+</section>
+
+<section class="tint">
+  <div class="wrap">
+    <div class="reassure">
+      <span class="kicker">It's Okay to Ask for Support</span>
+      <h2 style="font-size:28px; font-weight:800; color:var(--ink); margin-bottom:20px;">You Don't Have to Figure It Out Alone</h2>
+      <p>"A life coach is a person who partners with clients on matters having to do with personal change." Whatever that change looks like for you — a career shift, a hard season, a goal you keep putting off — having someone in your corner makes the path clearer.</p>
+      <p>Every session is private, judgment-free, and centered on you. If you've been putting off making the call, that's exactly what the first free conversation is for.</p>
+      <div class="reassure-links">
+        <span>Personal Growth</span>
+        <span>Career &amp; Transitions</span>
+        <span>Confidential Sessions</span>
+        <span>Owasso, OK</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap about-grid">
+    <img src="public/images/jen-avatar-circle.png" alt="Jen, founder of Owasso Life Coach" />
+    <div class="about-text">
+      <span class="credential">Life Coach &middot; Owasso, OK</span>
+      <h2 style="font-size:28px; font-weight:800; color:var(--ink); margin-bottom:16px;">About Jen</h2>
+      <p>Jen is the <strong>founder and life coach</strong> behind Owasso Life Coach, a private practice built around real, one-on-one partnership with clients working through personal change.</p>
+      <p>The approach is simple and personal: private sessions (in person or online), a focus on real conversation over canned advice, and a genuine commitment to the Owasso community Jen calls home.</p>
+    </div>
+  </div>
+</section>
+
+<section class="quote-band">
+  <div class="wrap">
+    <p>"Real, personal life coaching — rooted right here in the Owasso community."</p>
+    <div class="rec">100% Recommend &middot; Featured in Thumbtack's Top 10 Life Coaches in Owasso, OK</div>
+  </div>
+</section>
+
+<section class="final-cta">
+  <div class="wrap">
+    <h2>Ready to start your next chapter?</h2>
+    <p>Call or email Jen directly, or ask our assistant below and it'll help point you in the right direction.</p>
+    <div class="cta-row">
+      <a href="tel:+19188553964" class="btn">Call (918) 855-3964</a>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">Reach Out</span>
+      <h2>Contact</h2>
+    </div>
+    <div class="info-grid">
+      <div class="info-card">
+        <h3>Location</h3>
+        <p>Owasso, OK</p>
+        <p>United States</p>
+      </div>
+      <div class="info-card">
+        <h3>Phone</h3>
+        <p><a href="tel:+19188553964">(918) 855-3964</a></p>
+      </div>
+      <div class="info-card">
+        <h3>Email</h3>
+        <p><a href="mailto:owassolifecoach@gmail.com">owassolifecoach@gmail.com</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <img src="public/images/jen-avatar-circle.png" alt="Owasso Life Coach" />
+    <p class="biz-name">Owasso Life Coach — Jen, Founder &amp; Life Coach</p>
+    <p>Owasso, OK &nbsp;&middot;&nbsp; (918) 855-3964 &nbsp;&middot;&nbsp; owassolifecoach@gmail.com</p>
+    <p style="margin-top:10px;">Demo redesign by <a href="https://solvendix.com" target="_blank" rel="noopener noreferrer" class="solv">Solvendix</a></p>
+  </div>
+</footer>
+
+<div id="chat-launcher" onclick="toggleChat()">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+</div>
+
+<div id="chat-panel">
+  <div class="chat-head">
+    <div class="dot"></div>
+    <span>Chat with us</span>
+    <button id="chat-close" onclick="toggleChat()" aria-label="Close chat">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div id="chat-body">
+    <div class="bubble bot">Hi! Ask me anything about coaching with Jen, or getting started.</div>
+  </div>
+  <form id="chat-form" onsubmit="return handleSend(event)">
+    <input id="chat-input" type="text" placeholder="Type a message..." autocomplete="off" />
+    <button id="chat-send" type="submit" aria-label="Send">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+    </button>
+  </form>
+</div>
+
+<script>
+  const REPLY = "This chatbot will be your website's 24/7 assistant — answering your clients' questions about your coaching practice and booking appointments instantly, so you never lose a client to a missed message.<br><br>Businesses that add a 24/7 AI chatbot usually see more booked appointments and fewer lost leads — often a noticeable jump in monthly revenue, since it catches customers your site would otherwise lose. <a href=\"https://solvendix.com/how-chatbot-works\" target=\"_blank\" rel=\"noopener noreferrer\">See how it works →</a><br><br>Curious how this would work for your business? Book a free 15-minute discovery call with Solvendix and we'll help you implement everything you need: <a href=\"https://solvendix.com/book\" target=\"_blank\" rel=\"noopener noreferrer\">solvendix.com/book</a>";
+
+  function toggleChat() {
+    document.getElementById('chat-panel').classList.toggle('open');
+  }
+
+  function handleSend(e) {
+    e.preventDefault();
+    const input = document.getElementById('chat-input');
+    const body = document.getElementById('chat-body');
+    const text = input.value.trim();
+    if (!text) return false;
+
+    const userBubble = document.createElement('div');
+    userBubble.className = 'bubble user';
+    userBubble.textContent = text;
+    body.appendChild(userBubble);
+    input.value = '';
+    body.scrollTop = body.scrollHeight;
+
+    setTimeout(() => {
+      const botBubble = document.createElement('div');
+      botBubble.className = 'bubble bot';
+      botBubble.innerHTML = REPLY;
+      body.appendChild(botBubble);
+      body.scrollTop = body.scrollHeight;
+    }, 500);
+
+    return false;
+  }
+</script>
+
+</body>
+</html>
